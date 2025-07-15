@@ -1,6 +1,37 @@
 # Flutter MCP Server
 
+> **Note:** This project is forked from flutter_mcp_server.
+
+> **Note:** This project is an experimental project created to run the flutter-tizen command to create flutter in the Tizen development environment.
+
 > **Note:** Smithery cloud deployment is not currently set up. This MCP server is only supported for local use at this time. Smithery integration and registry listing are not yet available.
+
+## Cline mcp config
+
+```json
+{
+  "mcpServers": {
+    "flutter_mcp_server": {
+      "autoApprove": [
+        "format",
+        "fix",
+        "create",
+        "run",
+        "apply_fixes",
+        "get_diagnostics",
+        "flutter_inspector",
+        "search_docs",
+        "test",
+        "analyze"
+      ],
+      "disabled": false,
+      "timeout": 30,
+      "type": "sse",
+      "url": "http://localhost:8080/sse"
+    }
+  }
+}
+```
 
 ## Overview
 
@@ -31,6 +62,7 @@ The **Flutter MCP Server** is an open-source implementation of the Model Context
 - **Extensible:** Add new tools and resources as needed, adapting to evolving workflows and community feedback.
 
 ## Features
+
 - Exposes Dart and Flutter SDK tools (analyze, format, fix, create, run, test)
 - Supports MCP protocol for AI assistants
 - Secure environment variable management
@@ -45,12 +77,14 @@ The **Flutter MCP Server** is an open-source implementation of the Model Context
 ## Getting Started
 
 ### Prerequisites
+
 - Dart SDK (≥3.4.4)
 - Flutter SDK
 - Docker (for local container builds and Smithery deployment)
 - Smithery account (for cloud deployment)
 
 ### Local Setup
+
 1. Clone this repository
 2. Install dependencies:
    ```sh
@@ -66,12 +100,14 @@ The **Flutter MCP Server** is an open-source implementation of the Model Context
    ```
 
 Or build and run with Docker:
-   ```sh
-   docker build -t flutter_mcp_server .
-   docker run -it --env-file .env flutter_mcp_server
-   ```
+
+```sh
+docker build -t flutter_mcp_server .
+docker run -it --env-file .env flutter_mcp_server
+```
 
 ### Environment Variables
+
 All sensitive data is managed via environment variables. See `.env.example` for required keys.
 
 ---
@@ -79,6 +115,7 @@ All sensitive data is managed via environment variables. See `.env.example` for 
 ### Adding the MCP Server to Clients
 
 #### Adding the MCP Server to Windsurf
+
 To use this MCP server with [Windsurf](https://github.com/CodeiumAI/windsurf), add the following entry to your `.codeium/windsurf/mcp_config.json`:
 
 ```json
@@ -86,12 +123,7 @@ To use this MCP server with [Windsurf](https://github.com/CodeiumAI/windsurf), a
   "mcpServers": {
     "flutter_mcp_server": {
       "command": "docker",
-      "args": [
-        "run",
-        "--rm",
-        "-i",
-        "flutter_mcp_server"
-      ]
+      "args": ["run", "--rm", "-i", "flutter_mcp_server"]
     }
   }
 }
@@ -100,6 +132,7 @@ To use this MCP server with [Windsurf](https://github.com/CodeiumAI/windsurf), a
 This tells Windsurf how to launch your MCP server using Docker. Adjust the image name if needed.
 
 #### Adding the MCP Server to Cursor mcp.json
+
 If you use [Cursor](https://www.cursor.so/) or another client that supports a `mcp.json` config, add your server like this:
 
 ```json
@@ -108,12 +141,7 @@ If you use [Cursor](https://www.cursor.so/) or another client that supports a `m
     {
       "name": "Flutter MCP Server",
       "command": "docker",
-      "args": [
-        "run",
-        "--rm",
-        "-i",
-        "flutter_mcp_server"
-      ],
+      "args": ["run", "--rm", "-i", "flutter_mcp_server"],
       "env": {
         // Add any required environment variables here
       }
@@ -125,9 +153,11 @@ If you use [Cursor](https://www.cursor.so/) or another client that supports a `m
 This enables Cursor or compatible clients to start and connect to your MCP server automatically.
 
 > Make sure docker is installed and running on your machine.
+
 ---
 
 ### Deployment (Smithery)
+
 - Ensure your `Dockerfile` and `smithery.yaml` are present and correct in the repository root.
 - Connect your repository to Smithery via the Smithery web UI.
 - Push your latest changes to trigger a new build.
@@ -145,4 +175,5 @@ dart pub publish
 See the [official guide](https://dart.dev/tools/pub/publishing) for details.
 
 ## License
+
 [MIT](LICENSE)
